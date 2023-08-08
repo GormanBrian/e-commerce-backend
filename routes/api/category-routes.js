@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     // Respond with all categories successfully
     return res.status(200).json(categories);
   } catch (err) {
-    // Respond with an error if findAll fails
+    // Respond with an error if `findAll` fails
     return res.status(500).json(err);
   }
 });
@@ -37,17 +37,39 @@ router.get("/:id", async (req, res) => {
     // Respond with the Category successfully
     return res.status(200).json(category);
   } catch (err) {
-    // Respond with an error if findByPk fails
+    // Respond with an error if `findByPk` fails
     return res.status(500).json(err);
   }
 });
 
 router.post("/", (req, res) => {
   // create a new category
+  Category.create(req.body)
+    .then((category) => {
+      // Respond with the Category successfully
+      res.status(200).json(category);
+    })
+    .catch((err) => {
+      // Respond with an error if `create` fails
+      res.status(500).json(err);
+    });
 });
 
 router.put("/:id", (req, res) => {
   // update a category by its `id` value
+  Category.update(req.body, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((category) => {
+      // Respond with the Category successfully
+      res.status(200).json(category);
+    })
+    .catch((err) => {
+      // Respond with an error if `update` fails
+      res.status(400).json(err);
+    });
 });
 
 router.delete("/:id", (req, res) => {
