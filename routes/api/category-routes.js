@@ -12,17 +12,34 @@ router.get("/", async (req, res) => {
       include: [{ model: Product }],
     });
 
-    // Return all categories
+    // Respond with all categories successfully
     return res.status(200).json(categories);
   } catch (err) {
-    // Return an error if findAll fails
+    // Respond with an error if findAll fails
     return res.status(500).json(err);
   }
 });
 
-router.get("/:id", (req, res) => {
-  // find one category by its `id` value
-  // be sure to include its associated Products
+router.get("/:id", async (req, res) => {
+  try {
+    // find one category by its `id` value
+    // be sure to include its associated Products
+    const category = await Category.findByPk(req.params.id, {
+      include: [{ model: Product }],
+    });
+
+    // Respond with a 404 error if the Category was not found
+    if (!category)
+      return res
+        .status(404)
+        .json({ message: "Could not find category with that ID." });
+
+    // Respond with the Category successfully
+    return res.status(200).json(category);
+  } catch (err) {
+    // Respond with an error if findByPk fails
+    return res.status(500).json(err);
+  }
 });
 
 router.post("/", (req, res) => {
