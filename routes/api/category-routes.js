@@ -13,10 +13,10 @@ router.get("/", async (req, res) => {
     });
 
     // Respond with all categories successfully
-    return res.status(200).json(categories);
+    res.status(200).json(categories);
   } catch (err) {
     // Respond with an error if `findAll` fails
-    return res.status(500).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -29,16 +29,18 @@ router.get("/:id", async (req, res) => {
     });
 
     // Respond with a 404 error if the Category was not found
-    if (!category)
-      return res
+    if (!category) {
+      res
         .status(404)
         .json({ message: "Could not find category with that ID." });
+      return;
+    }
 
     // Respond with the Category successfully
-    return res.status(200).json(category);
+    res.status(200).json(category);
   } catch (err) {
     // Respond with an error if `findByPk` fails
-    return res.status(500).json(err);
+    res.status(500).json(err);
   }
 });
 
@@ -72,8 +74,30 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   // delete a category by its `id` value
+  try {
+    // delete one category by its `id` value
+    const categoryData = await Category.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    // Respond with a 404 error if the Category was not found
+    if (!categoryData) {
+      res
+        .status(404)
+        .json({ message: "Could not find category with that ID." });
+      return;
+    }
+
+    // Respond with the Category successfully
+    res.status(200).json(categoryData);
+  } catch (err) {
+    // Respond with an error if `destroy` fails
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
