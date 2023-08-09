@@ -54,6 +54,8 @@ $ npm i -g nodemon
 
 ## Usage
 
+Watch the [walkthrough video](https://drive.google.com/file/d/1YgHCUEVC9zsgoUuWXVP0jUmJwPVyE3HR/view) for a complete demonstration
+
 ```console
 $ npm run watch
 ```
