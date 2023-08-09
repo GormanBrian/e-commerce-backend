@@ -5,7 +5,7 @@ const { Category, Product } = require("../../models");
 
 const productAttributes = ["id", "product_name", "price", "stock"];
 
-router.get("/", async (req, res) => {
+router.get("/", async (_, res) => {
   try {
     // find all categories
     // be sure to include its associated Products
