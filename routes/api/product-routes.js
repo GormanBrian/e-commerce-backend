@@ -3,7 +3,7 @@ const { Product, Category, Tag, ProductTag } = require("../../models");
 
 // The `/api/products` endpoint
 
-// Attributes to select
+// Product attributes to select
 const attributes = ["id", "product_name", "price", "stock"];
 
 // get all products
