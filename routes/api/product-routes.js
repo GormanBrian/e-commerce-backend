@@ -8,10 +8,9 @@ const attributes = ["id", "product_name", "price", "stock"];
 
 // get all products
 router.get("/", async (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
   try {
-    // Find all products with associated categories and tags
+    // find all products
+    // be sure to include its associated Category and Tag data
     const products = await Product.findAll({
       attributes,
       include: [
@@ -132,20 +131,20 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     // delete one product by its `id` value
-    const productData = await Product.destroy({
+    const product = await Product.destroy({
       where: {
         id: req.params.id,
       },
     });
 
     // Respond with a 404 error if the Product was not found
-    if (!productData) {
+    if (!product) {
       res.status(404).json({ message: "Could not find product with that ID." });
       return;
     }
 
     // Respond with the Product successfully
-    res.status(200).json(productData);
+    res.status(200).json(product);
   } catch {
     // Respond with an error if `destroy` fails
     res.status(500).json(err);
